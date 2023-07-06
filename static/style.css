@@ -1,0 +1,93 @@
+body {
+    text-align: center;
+    font-family: "Courier New";
+    background-color: #F8FFEB;
+    margin: 0px;
+}
+h1 {
+    color: green;
+}
+a {
+    text-decoration: none;
+}
+ul {
+    list-style-type: none;
+}
+hr {
+    border: solid 1px green;
+    margin-bottom: 30px;
+}
+
+/* Nav */
+nav {
+    height: 50px;
+    background-color: lightgrey;
+    color: white;
+    width: 100%;
+}
+.nav-title {
+    float: left;
+    display: inline-block;
+    margin: 15px;
+}
+.nav-links {
+    display: inline-block;
+    float: left;
+}
+.nav-item {
+    float: left;
+    padding: 5px 15px 5px 15px;
+}
+.nav-item-seperator {
+    float: left;
+    height: 100%;
+    border-right: 1px black solid;
+}
+
+
+.buttons {
+    background-color: green;
+    padding: 15px;
+    border: 3px solid lightgreen;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+.buttons:hover {
+    background-color: #B4FD35;
+}
+.smart-buttons {
+
+}
+#login {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-form {
+    text-align: center;
+    background-color: lightgreen;
+    padding: 20px;
+    margin: 40px auto 40px auto;
+    border: 5px solid green;
+    border-radius: 5px;
+    width: 500px;
+}
+#create-account {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.form-section {
+    margin: 15px;
+}
+#menu {
+    margin: 40px auto 40px auto;
+    width: 1050px;
+    border: 5px solid green;
+    border-radius: 5px;
+    background-color: lightgreen;
+    padding: 35px;
+}
