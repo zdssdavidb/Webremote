@@ -12,7 +12,7 @@ pip install flask
 
 
 
-
+# Usage
 1. Configure interface and port in **main.py**
 2. Start flask web server with **python3 main.py**
 3. Use browser to navigate to server address and register new user.
