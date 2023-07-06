@@ -98,7 +98,7 @@ include
 lib
 lib64
 share
-pyenv.cfg
+pyvenv.cfg
 
 # celery beat schedule file
 celerybeat-schedule
