@@ -1,7 +1,9 @@
+### Webremote ###
+
+import os, random
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
-import os, random
 from sklad import *
 
 app = Flask(__name__)
@@ -17,15 +19,17 @@ class Users(UserMixin, db.Model):
 	username = db.Column(db.String(250), unique=True, nullable=False)
 	password = db.Column(db.String(250), nullable=False)
 
+
 db.init_app(app)
 
 # Home page (for logged in users)
 @app.route("/")
 def home():
 	# weather_forecast = Get_weather_forecast1()
-	return render_template("home.html")			# serving home page, which includes Menu.html with buttons, etc.
+	return render_template("testhome.html")			# serving home page, which includes Menu.html with buttons, etc.
 with app.app_context():
 	db.create_all()
+
 
 @login_manager.user_loader
 def loader_user(user_id):
@@ -44,6 +48,7 @@ def register():
 		return redirect(url_for("login"))
 	return render_template("sign_up.html")
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	if request.method == "POST":
@@ -56,11 +61,13 @@ def login():
 			return redirect(url_for("home"))
 	return render_template("login.html")
 
+
 # Logout user function
 @app.route("/logout")
 def logout():
 	logout_user()
 	return redirect(url_for("login"))
+
 
 # TV Power toggle
 @app.route("/tv_power")
@@ -68,6 +75,7 @@ def tv_power():
 	from sklad import tv_power_toggle
 	tv_power_toggle()
 	return redirect(url_for("home"))
+
 
 # TV LED toggle (needs work, hence the explicit OFF function before logic)
 @app.route("/tv_led_toggle")
@@ -93,6 +101,7 @@ def tv_led_toggle():
 			# print("Oops")
 			file.write("0")
 			return redirect(url_for("home"))
+
 
 # TV LED color shuffle 
 @app.route("/tv_led_shuffle")
@@ -133,11 +142,13 @@ def tv_led_shuffle():
 		# 	file.write("DEFAULT")
 		# 	return redirect(url_for("home"))
 
+
 # Cube power toggle
 @app.route("/Cube_power_toggle")
 def cube_pw_toggle():
 	cube_power_toggle()
 	return redirect(url_for("home"))
+
 
 # get weather data
 @app.route('/get_weather', methods = ['GET', 'POST'])
@@ -146,14 +157,16 @@ def get_weather():
 	sklad.get_weather_full()
 	return render_template("/var/www/html/webremote/templates/weather.html")  
 
+
 # Table power toggle
 @app.route("/table_power_toggle")
 def table_pw_toggle():
 	table_toggle()
 	return redirect(url_for("home"))
 
+
 # Running server
 if __name__ == "__main__":
-	app.run(host="{INTERFACE IP}", port=8080, debug=False)	# define IP and port
-	# app.run(host="100.79.200.135", port=8080, debug=True)	# alternative interface for VPN (either/or)
-
+	app.run(host="127.0.0.1", port=8080, debug=True)	
+	# app.run(host="{INTERFACE IP}", port=8080, debug=False)	# define IP and port
+    # app.run(host="100.79.200.135", port=8080, debug=False)	# alternative interface for VPN (either/or)
