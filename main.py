@@ -26,7 +26,7 @@ db.init_app(app)
 @app.route("/")
 def home():
 	# weather_forecast = Get_weather_forecast1()
-	return render_template("testhome.html")			# serving home page, which includes Menu.html with buttons, etc.
+	return render_template("home.html")			# serving home page, which includes Menu.html with buttons, etc.
 with app.app_context():
 	db.create_all()
 
