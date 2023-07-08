@@ -15,10 +15,7 @@
         <a href="/logout">Logout</a>
         {% include 'menu.html' %}
         {% else %}
-        <h1>You are not logged in</h1>
-        <div w3-include-html="login.html">
-
-        </div>
+        {% include 'sections/login.html' %}
         {% endif %}
     </body>
 </html>
