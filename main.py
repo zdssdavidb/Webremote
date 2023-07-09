@@ -36,17 +36,20 @@ def loader_user(user_id):
 	return Users.query.get(user_id)
 
 
+
 # I would recommend commenting this block out after 1 user is registered.
 # Register new user
 @app.route('/register', methods=["GET", "POST"])
 def register():
-	if request.method == "POST":
-		user = Users(username=request.form.get("username"),
-					password=request.form.get("password"))
-		db.session.add(user)
-		db.session.commit()
-		return redirect(url_for("login"))
-	return render_template("sign_up.html")
+    if request.method == "POST":
+
+        user = Users(username=request.form.get("username"),
+                    password=request.form.get("password"))
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for("login"))
+
+    return render_template("sections/sign_up.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -56,10 +59,10 @@ def login():
 			username=request.form.get("username")).first()
 		if user.password == request.form.get("password"):
 			login_user(user)
-			from sklad import get_weather_full
-			weather = get_weather_full()
+#			from sklad import get_weather_full
+#			weather = get_weather_full()
 			return redirect(url_for("home"))
-	return render_template("login.html")
+	return render_template("sections/login.html")
 
 
 # Logout user function

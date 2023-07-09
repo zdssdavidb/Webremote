@@ -11,11 +11,12 @@
     </head>
     <body>
         {% include 'sections/nav.html' %}
-        {% if current_user.is_authenticated %}
+    	{% if current_user.is_authenticated %}
         <a href="/logout">Logout</a>
-        {% include 'menu.html' %}
+        {% include 'sections/menu.html' %}
         {% else %}
-        {% include 'sections/login.html' %}
+        <h1>You are not logged in</h1>
+        <a href="/login">Login</a>
         {% endif %}
     </body>
 </html>
