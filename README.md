@@ -4,6 +4,7 @@
 - [Description](#description)
 - [Requirements](#requirements)
 - [Usage](#usage)
+- [Plans](#plans)
 - [Misc](#misc)
 
 
