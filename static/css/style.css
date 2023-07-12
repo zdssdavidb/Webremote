@@ -1,5 +1,4 @@
 body {
-    text-align: center;
     font-family: "Courier New";
     background-color: #F8FFEB;
     margin: 0px;
@@ -24,6 +23,9 @@ hr {
 .show {
     display: block;
     visibility: hidden;
+}
+.pageTitle {
+    text-align: left;
 }
 /* Nav */
 nav {
@@ -50,7 +52,11 @@ nav {
     height: 100%;
     border-right: 1px black solid;
 }
-
+.main-container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .buttons {
     background-color: green;
@@ -91,7 +97,7 @@ nav {
     margin: 15px;
 }
 #menu {
-    margin: 40px auto 40px auto;
+    margin: 10px auto 40px auto;
     width: 1050px;
     border: 5px solid green;
     border-radius: 5px;
@@ -103,4 +109,16 @@ nav {
 }
 #lLink:hover {
    color: skyblue; 
+}
+#log_container {
+    background-color: lightgrey;
+    border-radius: 5px;
+    padding: 15px;
+    color: white;
+    min-height: 100px;
+}
+#weather_container {
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
 }

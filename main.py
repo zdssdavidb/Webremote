@@ -72,6 +72,16 @@ def logout():
 	return redirect(url_for("login"))
 
 
+@app.route("/devices")
+def devices():
+    return render_template("devices.html")
+
+
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
+
+
 # TV Power toggle
 @app.route("/tv_power")
 def tv_power():

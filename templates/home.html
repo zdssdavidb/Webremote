@@ -11,12 +11,15 @@
     </head>
     <body>
         {% include 'sections/nav.html' %}
-    	{% if current_user.is_authenticated %}
-        <a href="/logout">Logout</a>
-        {% include 'sections/menu.html' %}
-        {% else %}
-        <h1>You are not logged in</h1>
-        <a href="/login">Login</a>
-        {% endif %}
+        <div class="main-container">
+            {% if current_user.is_authenticated %}
+                {% include 'sections/weather_display.html' %}
+                {% include 'sections/menu.html' %}
+                {% include 'sections/log_display.html' %}
+            {% else %}
+                <h1>You are not logged in</h1>
+                <a href="/login">Login</a>
+            {% endif %}
+        </div>
     </body>
 </html>
