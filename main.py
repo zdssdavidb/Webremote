@@ -5,11 +5,24 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 from sklad import *
+from datetime import date
+
+# Initial logfile test for logDisplay
+l = open("logFile.txt", "a")
+
+def write_log(message):
+    now = datetime.now()
+    l.write(now," - ",message)
+   
+
+write_log("Starting"):
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "4GShz7"
 db = SQLAlchemy()
+
+write_log("Configured database"):
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -68,6 +81,7 @@ def login():
 # Logout user function
 @app.route("/logout")
 def logout():
+    write_log("Logging Out"):
 	logout_user()
 	return redirect(url_for("login"))
 
