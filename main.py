@@ -11,18 +11,18 @@ from datetime import date
 l = open("logFile.txt", "a")
 
 def write_log(message):
-    now = datetime.now()
+    now = datetime.datetime.now()
     l.write(now," - ",message)
    
 
-write_log("Starting"):
+# write_log("Starting")
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "4GShz7"
 db = SQLAlchemy()
 
-write_log("Configured database"):
+# write_log("Configured database")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -81,9 +81,9 @@ def login():
 # Logout user function
 @app.route("/logout")
 def logout():
-    write_log("Logging Out"):
-	logout_user()
-	return redirect(url_for("login"))
+    # write_log("Logging Out")
+    logout_user()
+    return redirect(url_for("login"))
 
 
 @app.route("/devices")

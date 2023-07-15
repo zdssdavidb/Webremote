@@ -1,20 +1,39 @@
+html {
+    height: 100%;
+}
 body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 100vh;
     font-family: "Courier New";
-    background-color: #F8FFEB;
+    background-color: #EFFFFD;
     margin: 0px;
     padding-top: 50px;
+    margin-bottom: -10px;
 }
-h1 {
-    color: green;
+a:link {
+    color: #ff7f42;
+    text-decoration: none;
 }
-a {
+a:visited {
+    color: #ff7f42;
+    text-decoration: none;
+}
+a:hover {
+    color: #ff7f42;
+    text-decoration: none;
+}
+a:active {
+    color: #ff7f42;
     text-decoration: none;
 }
 ul {
     list-style-type: none;
 }
 hr {
-    border: solid 1px green;
+    border: solid 1px #85F4FF;
     margin-bottom: 30px;
 }
 .hidden {
@@ -34,16 +53,17 @@ nav {
     top: 0;
     overflow: hidden;
     height: 50px;
-    background-color: lightgrey;
-    color: white;
+    background-color: #42C2FF;
     width: 100%;
 }
 .nav-title {
+    color: #ff7f42;
     float: left;
     display: inline-block;
     margin: 15px;
 }
 .nav-links {
+    color: #9BE8D8;
     display: inline-block;
     float: left;
 }
@@ -57,26 +77,28 @@ nav {
     border-right: 1px black solid;
 }
 .main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     width: 80%;
+    height: 700px;
     margin-left: auto;
     margin-right: auto;
 }
-
 .buttons {
-    background-color: green;
+    background-color: #42C2FF;
     padding: 15px;
-    border: 3px solid lightgreen;
+    border: 5px solid #85F4FF;
     border-radius: 5px;
     text-decoration: none;
     text-align: center;
     font-size: 16px;
-    color: white;
 }
 .buttons:hover {
-    background-color: #B4FD35;
+    background-color: #ff7f42;
+    border: 5px solid #F04C00;
 }
 .smart-buttons {
-
 }
 #login {
     width: 600px;
@@ -85,10 +107,10 @@ nav {
 }
 .login-form {
     text-align: center;
-    background-color: lightgreen;
+    background-color: #B8FFF9;
     padding: 20px;
     margin: 40px auto 40px auto;
-    border: 5px solid green;
+    border: 5px solid #85F4FF;
     border-radius: 5px;
     width: 500px;
 }
@@ -101,12 +123,15 @@ nav {
     margin: 15px;
 }
 #menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     margin: 10px auto 10px auto;
-    width: 1050px;
-    border: 5px solid green;
+    border: 5px solid #85F4FF;
     border-radius: 5px;
-    background-color: lightgreen;
-    padding: 35px;
+    background-color: #B8FFF9;
+    padding: 15px;
 }
 #cALink:hover {
    color: skyblue; 
@@ -115,21 +140,33 @@ nav {
    color: skyblue; 
 }
 #log_container {
-    margin: 10px auto 10px auto;
-    background-color: lightgrey;
+    background-color: #B8FFF9;
+    border: 5px solid #85F4FF;
     border-radius: 5px;
     padding: 15px;
-    color: white;
-    min-height: 250px;
+}
+#log_container>p {
+    line-height: 30%;
 }
 #weather_container {
-    background-color: white;
+    background-color: #B8FFF9;
+    border: 5px solid #85F4FF;
+    border-radius: 5px;
+    padding: 15px;
+}
+#settings-form {
+    background-color: #B8FFF9;
+    border: 5px solid #85F4FF;
     border-radius: 5px;
     padding: 15px;
 }
 footer {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: auto;
+    background-color: #85F4FF;
     width: 100%;
-    min-height: 100px;
+    height: 5rem;
+    margin-top: 15px;
     padding: 15px;
-    background-color: grey;
 }
