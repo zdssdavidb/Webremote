@@ -1,18 +1,18 @@
 ### Webremote ###
 
-import os, random
+import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 from sklad import *
-from datetime import date
+# from datetime import date
 
 # Initial logfile test for logDisplay
-l = open("logFile.txt", "a")
+# l = open("logFile.txt", "a")
 
-def write_log(message):
-    now = datetime.datetime.now()
-    l.write(now," - ",message)
+# def write_log(): # Add message for log functionality
+#    now = datetime.datetime.now()
+#    l.write(now," - ",message)
    
 
 # write_log("Starting")
@@ -180,7 +180,7 @@ def cube_pw_toggle():
 # get weather data
 @app.route('/get_weather', methods = ['GET', 'POST'])
 def get_weather():
-	from sklad import get_weather_full
+    # from sklad import get_weather_full
 	sklad.get_weather_full()
 	return render_template("/var/www/html/webremote/templates/weather.html")  
 
