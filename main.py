@@ -1,28 +1,12 @@
-### Webremote ###
-
-import os, random
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
-from sklad import *
-from datetime import date
-
-# Initial logfile test for logDisplay
-l = open("logFile.txt", "a")
-
-def write_log(message):
-    now = datetime.datetime.now()
-    l.write(now," - ",message)
-   
-
-# write_log("Starting")
-
+import os, random
+# from sklad import *
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "4GShz7"
 db = SQLAlchemy()
-
-# write_log("Configured database")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -32,38 +16,30 @@ class Users(UserMixin, db.Model):
 	username = db.Column(db.String(250), unique=True, nullable=False)
 	password = db.Column(db.String(250), nullable=False)
 
-
 db.init_app(app)
 
 # Home page (for logged in users)
 @app.route("/")
 def home():
-	# weather_forecast = Get_weather_forecast1()
-	return render_template("home.html")			# serving home page, which includes Menu.html with buttons, etc.
+	return render_template("home.html")
+
 with app.app_context():
 	db.create_all()
-
 
 @login_manager.user_loader
 def loader_user(user_id):
 	return Users.query.get(user_id)
 
-
-
-# I would recommend commenting this block out after 1 user is registered.
-# Register new user
-@app.route('/register', methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-
-        user = Users(username=request.form.get("username"),
-                    password=request.form.get("password"))
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for("login"))
-
-    return render_template("sections/sign_up.html")
-
+# # Register new user
+# @app.route('/register', methods=["GET", "POST"])
+# def register():
+# 	if request.method == "POST":
+# 		user = Users(username=request.form.get("username"),
+# 					password=request.form.get("password"))
+# 		db.session.add(user)
+# 		db.session.commit()
+# 		return redirect(url_for("login"))
+# 	return render_template("sign_up.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -72,63 +48,49 @@ def login():
 			username=request.form.get("username")).first()
 		if user.password == request.form.get("password"):
 			login_user(user)
-#			from sklad import get_weather_full
-#			weather = get_weather_full()
 			return redirect(url_for("home"))
-	return render_template("sections/login.html")
-
+	return render_template("login.html")
 
 # Logout user function
 @app.route("/logout")
 def logout():
-    # write_log("Logging Out")
-    logout_user()
-    return redirect(url_for("login"))
-
-
-@app.route("/devices")
-def devices():
-    return render_template("devices.html")
-
-
-@app.route("/settings")
-def settings():
-    return render_template("settings.html")
-
+	logout_user()
+	return redirect(url_for("login"))
 
 # TV Power toggle
 @app.route("/tv_power")
 def tv_power():
+	print("PWD for tv_power", os.getcwd())
 	from sklad import tv_power_toggle
 	tv_power_toggle()
 	return redirect(url_for("home"))
 
-
-# TV LED toggle (needs work, hence the explicit OFF function before logic)
+# TV LED toggle
 @app.route("/tv_led_toggle")
 def tv_led_toggle():
-	print(os.getcwd())
-	f = open("status", 'r')
-	data = f.read()
-	f.close()
-	from sklad import tv_led_off, tv_led_default
-	tv_led_off()
-	with open("status", "w") as file:
-		if data == "1":
-			print("LED is ON, turning OFF")
-			tv_led_off()
-			file.write("0")
-			return redirect(url_for("home"))
-		elif data =="0":
-			print("LED is OFF, turning ON")
-			tv_led_default()
-			file.write("1")
-			return redirect(url_for("home"))
-		else:
-			# print("Oops")
-			file.write("0")
-			return redirect(url_for("home"))
-
+	try:
+		f = open("status", 'r')
+		data = f.read()
+		f.close()
+		from sklad import tv_led_off, tv_led_default
+		tv_led_off()
+		with open("status", "w") as file:
+			if data == "1":
+				print("LED is ON, turning OFF")
+				tv_led_off()
+				file.write("0")
+				return redirect(url_for("home"))
+			elif data =="0":
+				print("LED is OFF, turning ON")
+				tv_led_default()
+				file.write("1")
+				return redirect(url_for("home"))
+			else:
+				# print("Oops")
+				file.write("0")
+				return redirect(url_for("home"))
+	except:
+		return "tv_led_toggle Function Failed!"
 
 # TV LED color shuffle 
 @app.route("/tv_led_shuffle")
@@ -169,31 +131,55 @@ def tv_led_shuffle():
 		# 	file.write("DEFAULT")
 		# 	return redirect(url_for("home"))
 
-
 # Cube power toggle
 @app.route("/Cube_power_toggle")
 def cube_pw_toggle():
-	cube_power_toggle()
-	return redirect(url_for("home"))
+	try:
+		from sklad import cube_power_toggle
+		cube_power_toggle()
+		return redirect(url_for("home"))
+	except:
+		return "cube_power_toggle Function Failed!"
 
+# Load weather page
+@app.route("/weather")
+def load_weather():
+	#try:
+	return render_template("weather.html")
+	#except:
+	#	return "load_weather Function Failed!"
 
 # get weather data
 @app.route('/get_weather', methods = ['GET', 'POST'])
 def get_weather():
+	# try:
+	import time
+	# os.chdir("/home/pi/scripts")
+	print("################# PWD Start of Weather function!", os.getcwd())
+	import sklad
 	from sklad import get_weather_full
 	sklad.get_weather_full()
-	return render_template("/var/www/html/webremote/templates/weather.html")  
-
-
+	time.sleep(1)
+	# os.chdir("/var/www/html/webremote/templates")
+	print("################# PWD at End of Weather function!", os.getcwd())	
+	return redirect(url_for("home")) 
+	# except:
+	# 	return redirect(url_for("home"))
+	
 # Table power toggle
 @app.route("/table_power_toggle")
 def table_pw_toggle():
-	table_toggle()
-	return redirect(url_for("home"))
-
+	try:
+		from sklad import table_toggle
+		table_toggle()
+		return redirect(url_for("home"))
+	except ConnectionError:
+		return "Unable to connect to Table Sensor."
+	except:
+		return "Some error when running function table_toggle."
 
 # Running server
 if __name__ == "__main__":
-	app.run(host="127.0.0.1", port=8080, debug=True)	
-	# app.run(host="{INTERFACE IP}", port=8080, debug=False)	# define IP and port
-    # app.run(host="100.79.200.135", port=8080, debug=False)	# alternative interface for VPN (either/or)
+	app.run(host="192.168.0.234", port=9094, debug=True)
+	# app.run(host="100.79.200.135", port=9094, debug=True)
+

@@ -32,7 +32,6 @@ def led_off():
     hour2 = str(x.strftime("%H:%M:%S"))
     #print("Mood LED OFF at {}".format(hour2))
 
-# Different colours
 def tv_led_default():
     os.system("pigs p 23 100")  #red
     os.system("pigs p 22 100")  #green
@@ -102,25 +101,34 @@ def DoubleGreenFlash():
 # Smart sockets (Sonoff/Tasmota)
 def bed_light_toggle():
     import requests
-    r=requests.get('http://{IP ADDRESS}/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power toggle (On/Off)
+    r=requests.get('http://192.168.0.106/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power toggle
 
 def tv_power_toggle():
     import requests
-    r=requests.get('http://{IP ADDRESS}/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power toggle (On/Off)
+    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power toggle
 
 def tv_power_off():
     import requests
-    r=requests.get('http://{IP ADDRESS}/cm?cmnd=Power%20Off', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power OFF
+    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20Off', auth=('admin','Password123')) # HTTP Power OFF
+    
 def tv_power_on():
     import requests
-    r=requests.get('http://{IP ADDRESS}/cm?cmnd=Power%20On', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power OFF
+    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20On', auth=('admin','Password123')) # HTTP Power ON
 
-def humidifier_toggle():
+def table_toggle():
     import requests
-    r=requests.get('http://{IP ADDRESS}/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power Toggle (On/Off)
+    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power to$
 
+def table_power_off():
+    import requests
+    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20Off', auth=('admin','Password123')) # HTTP Power to$
+
+def table_power_on():
+    import requests
+    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20On', auth=('admin','Password123')) # HTTP Power to$
+    
 def cube_power_toggle():
-    requests.get('http://{IP ADDRESS}/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power OFF
+    requests.get('http://192.168.0.203/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power OFF
 
 # Misc
 def Get_weather_forecast1():
@@ -146,7 +154,6 @@ def Get_weather_forecast2():                    # AccuWeather API
     weather_text=weather_data[0]['Temperature']
     temperature=weather_data[0]['Temperature']['Metric']['Value']
 
-# returns 10 latest security news (news descriptions)
 def get_news():
     try:
         from bs4 import BeautifulSoup
@@ -170,11 +177,10 @@ def get_news():
                             x=x[:130]                    
                         news.append(x)     # add to news list
         news=news[:10]        # keep only 10 news
-        return(news)        
+        return(news)
     except:
         return("News function failed!")
-
-# Not tested
+    
 def keyboard_shortcut():
     from pyautogui import press, hotkey
     import os, time
@@ -183,12 +189,12 @@ def keyboard_shortcut():
     #time.sleep(1)
     #hotkey('up') 
 
-# get device temperature from PiHole landing page
 def WebScraping():
+    #get specific data
     while True:
         from bs4 import BeautifulSoup
         #get the data
-        data = requests.get("http://{IP ADDRESS}/{USERNAME}/")
+        data = requests.get("http://192.168.0.234/admin/")
         #load data into bs4
         soup = BeautifulSoup(data.text, 'html.parser')
         temp = soup.find('span', {'id':'rawtemp'})
@@ -196,12 +202,13 @@ def WebScraping():
         print(temp.text)
         time.sleep(5)
 
-# Sending email to me, need to supply subject and message when calling function (used for daily report and some alerts)
+# Sending email to me, need to supply subject and message when calling function
 def send_mail(subject, email_body):
     import os,datetime, smtplib
-    sender="{SENDER EMAIL}"
-    password="{APP PASSWORD for sender email}"
-    recipient="{EMAIL ADDRESS of recipient}"
+
+    sender="rpiwids@gmail.com"
+    password="bhekashypxiwvtqn"
+    recipient="david.brezgun@gmail.com"
     
     x = datetime.datetime.now()         # date/time
     date=x.strftime("%d %B %Y")
@@ -215,7 +222,7 @@ def send_mail(subject, email_body):
     server.sendmail(sender,recipient, message)
     server.quit()
 
-# Checking VPN status, returns 1 if connected, 0 if not connected (used as a CRON job)
+# Checking VPN status, returns 1 if connected, 0 if not connected.
 def get_vpn_status():
     try:
       vpn_status = check_output(["sudo", "nordvpn","status"])
@@ -232,7 +239,6 @@ def get_vpn_status():
     except:
       return "FAILED!"
 
-# Getting device uptime (for LCD screen)
 def get_uptime():
   try:
     os.system("uptime >uptime")
@@ -247,3 +253,111 @@ def get_uptime():
         return uptime
   except:
     return "0"
+
+# Getting 10 day forecast (high/low temps + descriptions, saving to/generating weather.html file)
+def get_weather_full():
+    import requests
+    from bs4 import BeautifulSoup
+
+    response = requests.get("https://www.bbc.co.uk/weather/2648579")
+    # response.status_code
+    soup = BeautifulSoup(response.content, "html.parser")
+    # Collecting weather descriptions
+    temp = soup.find("div", class_="wr-day-summary")
+    dirty_weather_descriptions = temp.find_all("span", class_="wr-hide")
+    clean_weather_descriptions = []
+    clean_weather_descriptions.append(soup.find("div",class_="wr-day__weather-type-description wr-js-day-content-weather-type-description wr-day__content__weather-type-description--opaque").text)
+    for entry in dirty_weather_descriptions:
+        clean_weather_descriptions.append(entry.text)
+    # print("Weather descriptions:", clean_weather_descriptions)            # checking so far
+
+    # Collecting all dates
+    temp = soup.find_all("div", class_="wr-day__title wr-js-day-content-title")
+    dates = []
+    for entry in temp:
+        x = entry.text.split('\xa0')[0]       # keeping only the day name
+        dates.append(x)
+    # print("Dates:", dates)          # checking so far
+
+    # Collecting temperatures (high and low)
+    all_temps_dirty = soup.find_all("div", class_="wr-day__temperature")
+    weather_data = []
+    for index, entry in enumerate(all_temps_dirty):
+        high_temps = entry.find("span", class_="wr-day-temperature__high-value")
+        try:
+            high_temp = high_temps.select('.wr-value--temperature--c')[0].get_text()
+        except:
+            high_temp = "NONE"
+        low_temps = entry.find("span", class_="wr-day-temperature__low-value")
+        low_temp = low_temps.select('.wr-value--temperature--c')[0].get_text()
+        weather_data.append({"date": dates[index], "high_temp": high_temp, "low_temp": low_temp, "description": clean_weather_descriptions[index]})
+
+   # Generating HTML page with weather forecast.
+    html_str = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>10 days Weather Forecast</title>
+    </head>
+    <body style="background-color:Black;">
+    <div style="color:White;", align='center'>
+    <dl>
+    """
+   
+    for entry in weather_data:
+        html_str += "<dt>" +  entry['date'].encode('ascii', 'ignore').decode('ascii') + "</dt>"
+        html_str += "<dd>" +  entry['description'].encode('ascii', 'ignore').decode('ascii') + ".</dd>"
+        html_str += "<dd>Max temp: " +  entry['high_temp'].encode('ascii', 'ignore').decode('ascii') + "</dd>"
+        html_str += "<dd>Min temp: " +  entry['low_temp'].encode('ascii', 'ignore').decode('ascii') + "</dd><br>"
+
+    html_str += """
+    </dl>
+    </div>
+    </body>
+    </html>
+    """
+    # Saving HTML page
+    os.chdir("/var/www/html/webremote/templates")
+    Html_file= open("weather.html","w")
+    Html_file.write(html_str)
+    Html_file.close()
+
+# pulling temp/humidity data from table sensor
+def get_table_temp():
+    import os, requests, json
+    r = requests.get('http://192.168.0.51/cm?cmnd=status%208', auth=('admin','Password123'))
+    # print("Collected data: ",r.text)
+    if r.status_code==200:
+        response = r.json()['StatusSNS']['DHT11']
+        os.chdir("/home/pi/logs")
+        now = datetime.datetime.now()
+        os.system(f"echo {now.strftime('%x %X')},{response['Temperature']},{response['Humidity']},{ response['DewPoint']} >>table_log.csv")
+    else:
+        print("Couldn't get data")
+
+
+# Testing stuff
+def tv_led_toggle123():
+	f = open("/var/www/html/webremote/status", 'r')
+	data = f.read()
+	f.close()
+	from sklad import tv_led_off, tv_led_default
+	with open("/var/www/html/webremote/status", "w") as file:
+		if data == "1":
+			print("LED is ON, turning OFF")
+			tv_led_off()
+			print(data)
+			file.write("0")
+			return "hello"
+		elif data =="0":
+			print("LED is OFF, turning ON")
+			tv_led_default()
+			print(data)
+			file.write("1")
+			return "hello"
+		else:
+			print("Oops\n")
+			print(data)
+			file.write("0")
+			return "hello"
