@@ -19,6 +19,7 @@ pip install flask
 
 ## Features config
 touch /var/www/html/{project_name}/status      # for power switching for devices
+
 touch /var/www/html/{project_name}/color      # for storing current LED color
 
 
