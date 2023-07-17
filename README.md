@@ -18,9 +18,9 @@ Project to control various IoT devices in the house (WiFi) and the RPi server (D
 pip install flask
 
 ## Features config
-touch /var/www/html/{project_name}/status      # for power switching for devices
+_touch /var/www/html/{project_name}/status_      # for power switching for devices
 
-touch /var/www/html/{project_name}/color      # for storing current LED color
+_touch /var/www/html/{project_name}/color_      # for storing current LED color
 
 
 ## Usage
