@@ -101,34 +101,34 @@ def DoubleGreenFlash():
 # Smart sockets (Sonoff/Tasmota)
 def bed_light_toggle():
     import requests
-    r=requests.get('http://192.168.0.106/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power toggle
+    r=requests.get('http://{DEVICE IP]/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power toggle
 
 def tv_power_toggle():
     import requests
-    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power toggle
+    r=requests.get('http://{DEVICE IP]/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power toggle
 
 def tv_power_off():
     import requests
-    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20Off', auth=('admin','Password123')) # HTTP Power OFF
+    r=requests.get('http://{DEVICE IP]/cm?cmnd=Power%20Off', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power OFF
     
 def tv_power_on():
     import requests
-    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20On', auth=('admin','Password123')) # HTTP Power ON
+    r=requests.get('http://{DEVICE IP]/cm?cmnd=Power%20On', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power ON
 
 def table_toggle():
     import requests
-    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power to$
+    r=requests.get('http://{DEVICE IP]/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power to$
 
 def table_power_off():
     import requests
-    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20Off', auth=('admin','Password123')) # HTTP Power to$
+    r=requests.get('http://{DEVICE IP]/cm?cmnd=Power%20Off', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power to$
 
 def table_power_on():
     import requests
-    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20On', auth=('admin','Password123')) # HTTP Power to$
+    r=requests.get('http://{DEVICE IP]/cm?cmnd=Power%20On', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power to$
     
 def cube_power_toggle():
-    requests.get('http://192.168.0.203/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power OFF
+    requests.get('http://{DEVICE IP]/cm?cmnd=Power%20toggle', auth=('{USERNAME}','{PASSWORD}')) # HTTP Power OFF
 
 # Misc
 def Get_weather_forecast1():
@@ -194,7 +194,7 @@ def WebScraping():
     while True:
         from bs4 import BeautifulSoup
         #get the data
-        data = requests.get("http://192.168.0.234/admin/")
+        data = requests.get("http://{DEVICE IP]/{USERNAME}/")
         #load data into bs4
         soup = BeautifulSoup(data.text, 'html.parser')
         temp = soup.find('span', {'id':'rawtemp'})
@@ -206,9 +206,9 @@ def WebScraping():
 def send_mail(subject, email_body):
     import os,datetime, smtplib
 
-    sender="rpiwids@gmail.com"
-    password="bhekashypxiwvtqn"
-    recipient="david.brezgun@gmail.com"
+    sender="{EMAIL ADDRESS}"
+    password="{APP PASSWORD}"
+    recipient="{EMAIL ADDRESS}"
     
     x = datetime.datetime.now()         # date/time
     date=x.strftime("%d %B %Y")
@@ -326,7 +326,7 @@ def get_weather_full():
 # pulling temp/humidity data from table sensor
 def get_table_temp():
     import os, requests, json
-    r = requests.get('http://192.168.0.51/cm?cmnd=status%208', auth=('admin','Password123'))
+    r = requests.get('http://{DEVICE IP]/cm?cmnd=status%208', auth=('{USERNAME}','{PASSWORD}'))
     # print("Collected data: ",r.text)
     if r.status_code==200:
         response = r.json()['StatusSNS']['DHT11']
