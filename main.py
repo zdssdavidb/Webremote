@@ -38,7 +38,6 @@ db.init_app(app)
 # Home page (for logged in users)
 @app.route("/")
 def home():
-	# weather_forecast = Get_weather_forecast1()
 	return render_template("home.html")			# serving home page, which includes Menu.html with buttons, etc.
 with app.app_context():
 	db.create_all()
@@ -67,15 +66,16 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-	if request.method == "POST":
-		user = Users.query.filter_by(
-			username=request.form.get("username")).first()
-		if user.password == request.form.get("password"):
-			login_user(user)
-#			from sklad import get_weather_full
-#			weather = get_weather_full()
-			return redirect(url_for("home"))
-	return render_template("sections/login.html")
+    try:
+        if request.method == "POST":
+            user = Users.query.filter_by(
+                username=request.form.get("username")).first()
+            if user.password == request.form.get("password"):
+                login_user(user)
+                return redirect(url_for("home"))
+        return render_template("login.html")
+    except:
+        return render_template("login.html")
 
 
 # Logout user function
@@ -99,35 +99,41 @@ def settings():
 # TV Power toggle
 @app.route("/tv_power")
 def tv_power():
-	from sklad import tv_power_toggle
-	tv_power_toggle()
-	return redirect(url_for("home"))
+    try:
+        from sklad import tv_power_toggle
+        tv_power_toggle()
+        return redirect(url_for("home"))
+    except:
+        return redirect(url_for("home"))        # probably device timed out, just returning home screen. Will need to find a way to leave feedback to user that the function failed, but without creating a whole new page for it.
 
 
-# TV LED toggle (needs work, hence the explicit OFF function before logic)
+
+# TV LED toggle
 @app.route("/tv_led_toggle")
 def tv_led_toggle():
-	print(os.getcwd())
-	f = open("status", 'r')
-	data = f.read()
-	f.close()
-	from sklad import tv_led_off, tv_led_default
-	tv_led_off()
-	with open("status", "w") as file:
-		if data == "1":
-			print("LED is ON, turning OFF")
-			tv_led_off()
-			file.write("0")
-			return redirect(url_for("home"))
-		elif data =="0":
-			print("LED is OFF, turning ON")
-			tv_led_default()
-			file.write("1")
-			return redirect(url_for("home"))
-		else:
-			# print("Oops")
-			file.write("0")
-			return redirect(url_for("home"))
+	try:
+		f = open("status", 'r')
+		data = f.read()
+		f.close()
+		from sklad import tv_led_off, tv_led_default
+		tv_led_off()
+		with open("status", "w") as file:
+			if data == "1":
+				print("LED is ON, turning OFF")
+				tv_led_off()
+				file.write("0")
+				return redirect(url_for("home"))
+			elif data =="0":
+				print("LED is OFF, turning ON")
+				tv_led_default()
+				file.write("1")
+				return redirect(url_for("home"))
+			else:
+				# print("Oops")
+				file.write("0")
+				return redirect(url_for("home"))
+	except:
+		return "tv_led_toggle Function Failed!"
 
 
 # TV LED color shuffle 
@@ -173,23 +179,42 @@ def tv_led_shuffle():
 # Cube power toggle
 @app.route("/Cube_power_toggle")
 def cube_pw_toggle():
-	cube_power_toggle()
-	return redirect(url_for("home"))
-
+	try:
+		from sklad import cube_power_toggle
+		cube_power_toggle()
+		return redirect(url_for("home"))
+	except:
+		return "cube_power_toggle Function Failed!"
 
 # get weather data
 @app.route('/get_weather', methods = ['GET', 'POST'])
 def get_weather():
-    # from sklad import get_weather_full
+	# try:
+	import time
+	# os.chdir("/home/pi/scripts")
+	print("################# PWD Start of Weather function!", os.getcwd())
+	import sklad
+	from sklad import get_weather_full
 	sklad.get_weather_full()
-	return render_template("/var/www/html/webremote/templates/weather.html")  
+	time.sleep(1)
+	# os.chdir("/var/www/html/webremote/templates")
+	print("################# PWD at End of Weather function!", os.getcwd())	
+	return redirect(url_for("home")) 
+	# except:
+	# 	return redirect(url_for("home"))
 
 
 # Table power toggle
 @app.route("/table_power_toggle")
 def table_pw_toggle():
-	table_toggle()
-	return redirect(url_for("home"))
+	try:
+		from sklad import table_toggle
+		table_toggle()
+		return redirect(url_for("home"))
+	except ConnectionError:
+		return "Unable to connect to Table Sensor."
+	except:
+		return "Some error when running function table_toggle."
 
 
 # Running server
