@@ -14,8 +14,8 @@ Project to control various IoT devices in the house (WiFi) and the RPi server (D
 
 
 ## Requirements
-
-pip install flask
+_sudo apt-get update && sudo apt-get install python3
+python3 -m pip install flask_
 
 ## Features config
 _touch /var/www/html/{project_name}/status_      # for power switching for devices
