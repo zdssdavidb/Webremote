@@ -1,31 +1,20 @@
 ##### Webremote #####
 
+from configparser import SafeConfigParser
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 import os
-import sklad_functions as skl
+from sklad_functions import sklad as skl
 
-
-### Loging test ###
-# from datetime import date
-
-# Initial logfile test for logDisplay
-# l = open("logFile.txt", "a")
-
-# def write_log(): # Add message for log functionality
-#    now = datetime.datetime.now()
-#    l.write(now," - ",message)
-   
-
-# write_log("Starting")
+parser = SafeConfigParser()
+parser.read('config.ini')
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "4GShz7"
 db = SQLAlchemy()
 
-# write_log("Configured database")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -42,7 +31,7 @@ db.init_app(app)
 # Home page (for logged in users)
 @app.route("/")
 def home():
-	return render_template("home.html")			# serving home page, which includes Menu.html with buttons, etc.
+	return render_template("home.html") # serving home page, which includes Menu.html with buttons, etc.
 with app.app_context():
 	db.create_all()
 
@@ -58,7 +47,6 @@ def loader_user(user_id):
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-
         user = Users(username=request.form.get("username"),
                     password=request.form.get("password"))
         db.session.add(user)
@@ -104,8 +92,7 @@ def settings():
 @app.route("/tv_power")
 def tv_power():
     try:
-        from sklad import tv_power_toggle
-        tv_power_toggle()
+        skl.tv_power_toggle()
         return redirect(url_for("home"))
     except:
         return redirect(url_for("home"))        # probably device timed out, just returning home screen. Will need to find a way to leave feedback to user that the function failed, but without creating a whole new page for it.
@@ -114,69 +101,74 @@ def tv_power():
 # TV LED toggle
 @app.route("/tv_led_toggle")
 def tv_led_toggle():
-	try:
-		f = open("status", 'r')
-		data = f.read()
-		f.close()
-		from sklad import tv_led_off, tv_led_default
-		tv_led_off()
-		with open("status", "w") as file:
-			if data == "1":
-				print("LED is ON, turning OFF")
-				tv_led_off()
-				file.write("0")
-				return redirect(url_for("home"))
-			elif data =="0":
-				print("LED is OFF, turning ON")
-				tv_led_default()
-				file.write("1")
-				return redirect(url_for("home"))
-			else:
-				# print("Oops")
-				file.write("0")
-				return redirect(url_for("home"))
-	except:
-		return "tv_led_toggle Function Failed!"
+    try:
+        data = parser.get('TV_Lights', 'status')
+        skl.tv_led_off()
+        with open("config.ini", "w") as configfile:
+            if data == "1":
+                print("LED is ON, turning OFF")
+                skl.tv_led_off()
+                parser.set('TV_Lights','status',str(0))
+                parser.write(configfile)
+                configfile.close()
+                return redirect(url_for("home"))
+            elif data =="0":
+                print("LED is OFF, turning ON")
+                skl.tv_led_default()
+                parser.set('TV_Lights','status',str(1))
+                parser.write(configfile)
+                configfile.close()
+                return redirect(url_for("home"))
+            else:
+                # print("Oops")
+                parser.set('TV_Lights','status',str(0))
+                parser.write(configfile)
+                configfile.close()
+                return redirect(url_for("home"))
+    except:
+        return "tv_led_toggle Function Failed!"
 
 
 # TV LED color shuffle 
 @app.route("/tv_led_shuffle")
 def tv_led_shuffle():
-	from sklad import tv_led_blue, tv_led_yellow, tv_led_green, tv_led_pink, tv_led_default
-	f = open("color", 'r')
-	data = f.read()
-	f.close()
-	with open("color", "w") as file:
-		if data == "DEFAULT":
-			print("LED is Default")
-			tv_led_default()
-			file.write("BLUE")					# WRITE WHAT NEXT COLOR SHOULD BE
-			return redirect(url_for("home"))
-		elif data =="BLUE":
-			print("LED is BLUE")
-			tv_led_yellow()
-			file.write("YELLOW")
-			return redirect(url_for("home"))
-		elif data =="YELLOW":
-			print("LED is YELLOW")
-			tv_led_yellow()
-			file.write("GREEN")
-			return redirect(url_for("home"))
-		elif data =="GREEN":
-			print("LED is GREEN")
-			tv_led_green()
-			file.write("PINK")
-			return redirect(url_for("home"))
-		elif data =="PINK":
-			print("LED is PINK")
-			tv_led_pink()
-			file.write("DEFAULT")
-			return redirect(url_for("home"))
-		# else:
-		# 	print("LED is Default (Force)")
-		# 	tv_led_default()
-		# 	file.write("DEFAULT")
-		# 	return redirect(url_for("home"))
+    data = parser.get('TV_Lights', 'color')
+    with open("color", "w") as configfile:
+        if data == "DEFAULT":
+            print("LED is Default")
+            skl.tv_led_default()
+            parser.set('TV_Lights','status','BLUE')
+            parser.write(configfile)
+            configfile.close()
+            return redirect(url_for("home"))
+        elif data =="BLUE":
+            print("LED is BLUE")
+            skl.tv_led_yellow()
+            parser.set('TV_Lights','status','YELLOW')
+            parser.write(configfile)
+            configfile.close()
+            return redirect(url_for("home"))
+        elif data =="YELLOW":
+            print("LED is YELLOW")
+            skl.tv_led_yellow()
+            parser.set('TV_Lights','status','GREEN')
+            parser.write(configfile)
+            configfile.close()
+            return redirect(url_for("home"))
+        elif data =="GREEN":
+            print("LED is GREEN")
+            skl.tv_led_green()
+            parser.set('TV_Lights','status','PINK')
+            parser.write(configfile)
+            configfile.close()
+            return redirect(url_for("home"))
+        elif data =="PINK":
+            print("LED is PINK")
+            skl.tv_led_pink()
+            parser.set('TV_Lights','status','DEFAULT')
+            parser.write(configfile)
+            configfile.close()
+            return redirect(url_for("home"))
 
 
 # Cube power toggle
@@ -216,9 +208,12 @@ def table_pw_toggle():
 	except:
 		return "Some error when running function table_toggle."
 
+host = parser.get('Web','ip')
+port = parser.get('Web','port')
+debug = parser.getboolean('Web','debug')
 
 # Running server
 if __name__ == "__main__":
-	app.run(host="127.0.0.1", port=8080, debug=True)	
+	app.run(host=host, port=8080, debug=debug)	
 	# app.run(host="{INTERFACE IP}", port=8080, debug=False)	# define IP and port
     # app.run(host="100.79.200.135", port=8080, debug=False)	# alternative interface for VPN (either/or)
