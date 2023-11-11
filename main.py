@@ -1,10 +1,13 @@
-### Webremote ###
+##### Webremote #####
 
-import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
-from sklad import *
+import os
+import sklad_functions as skl
+
+
+### Loging test ###
 # from datetime import date
 
 # Initial logfile test for logDisplay
@@ -34,6 +37,7 @@ class Users(UserMixin, db.Model):
 
 
 db.init_app(app)
+
 
 # Home page (for logged in users)
 @app.route("/")
@@ -73,9 +77,9 @@ def login():
             if user.password == request.form.get("password"):
                 login_user(user)
                 return redirect(url_for("home"))
-        return render_template("login.html")
+        return render_template("sections/login.html")
     except:
-        return render_template("login.html")
+        return render_template("sections/login.html")
 
 
 # Logout user function
@@ -105,7 +109,6 @@ def tv_power():
         return redirect(url_for("home"))
     except:
         return redirect(url_for("home"))        # probably device timed out, just returning home screen. Will need to find a way to leave feedback to user that the function failed, but without creating a whole new page for it.
-
 
 
 # TV LED toggle
@@ -180,11 +183,11 @@ def tv_led_shuffle():
 @app.route("/Cube_power_toggle")
 def cube_pw_toggle():
 	try:
-		from sklad import cube_power_toggle
-		cube_power_toggle()
+		skl.cube_power_toggle()
 		return redirect(url_for("home"))
 	except:
 		return "cube_power_toggle Function Failed!"
+
 
 # get weather data
 @app.route('/get_weather', methods = ['GET', 'POST'])
@@ -193,9 +196,7 @@ def get_weather():
 	import time
 	# os.chdir("/home/pi/scripts")
 	print("################# PWD Start of Weather function!", os.getcwd())
-	import sklad
-	from sklad import get_weather_full
-	sklad.get_weather_full()
+	skl.get_weather_full()
 	time.sleep(1)
 	# os.chdir("/var/www/html/webremote/templates")
 	print("################# PWD at End of Weather function!", os.getcwd())	
@@ -208,8 +209,7 @@ def get_weather():
 @app.route("/table_power_toggle")
 def table_pw_toggle():
 	try:
-		from sklad import table_toggle
-		table_toggle()
+		skl.table_toggle()
 		return redirect(url_for("home"))
 	except ConnectionError:
 		return "Unable to connect to Table Sensor."
