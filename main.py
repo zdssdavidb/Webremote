@@ -41,7 +41,6 @@ def loader_user(user_id):
 	return Users.query.get(user_id)
 
 
-
 # I would recommend commenting this block out after 1 user is registered.
 # Register new user
 @app.route('/register', methods=["GET", "POST"])
@@ -209,11 +208,9 @@ def table_pw_toggle():
 		return "Some error when running function table_toggle."
 
 host = parser.get('Web','ip')
-port = parser.get('Web','port')
+port = parser.getint('Web','port')
 debug = parser.getboolean('Web','debug')
 
 # Running server
 if __name__ == "__main__":
-	app.run(host=host, port=8080, debug=debug)	
-	# app.run(host="{INTERFACE IP}", port=8080, debug=False)	# define IP and port
-    # app.run(host="100.79.200.135", port=8080, debug=False)	# alternative interface for VPN (either/or)
+	app.run(host=host, port=port, debug=debug)	
