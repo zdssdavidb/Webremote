@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 import os
 from sklad_functions import sklad as skl
+import webbrowser
 
 parser = SafeConfigParser()
 parser.read('config.ini')
@@ -101,26 +102,26 @@ def tv_power():
 @app.route("/tv_led_toggle")
 def tv_led_toggle():
     try:
-        data = parser.get('TV_Lights', 'status')
+        data = parser.get('TV_LIGHTS', 'status')
         skl.tv_led_off()
         with open("config.ini", "w") as configfile:
             if data == "1":
                 print("LED is ON, turning OFF")
                 skl.tv_led_off()
-                parser.set('TV_Lights','status',str(0))
+                parser.set('TV_LIGHTS','status',str(0))
                 parser.write(configfile)
                 configfile.close()
                 return redirect(url_for("home"))
             elif data =="0":
                 print("LED is OFF, turning ON")
                 skl.tv_led_default()
-                parser.set('TV_Lights','status',str(1))
+                parser.set('TV_LIGHTS','status',str(1))
                 parser.write(configfile)
                 configfile.close()
                 return redirect(url_for("home"))
             else:
                 # print("Oops")
-                parser.set('TV_Lights','status',str(0))
+                parser.set('TV_LIGHTS','status',str(0))
                 parser.write(configfile)
                 configfile.close()
                 return redirect(url_for("home"))
@@ -131,40 +132,40 @@ def tv_led_toggle():
 # TV LED color shuffle 
 @app.route("/tv_led_shuffle")
 def tv_led_shuffle():
-    data = parser.get('TV_Lights', 'color')
+    data = parser.get('TV_LIGHTS', 'colour')
     with open("color", "w") as configfile:
         if data == "DEFAULT":
             print("LED is Default")
             skl.tv_led_default()
-            parser.set('TV_Lights','status','BLUE')
+            parser.set('TV_LIGHTS','colour','BLUE')
             parser.write(configfile)
             configfile.close()
             return redirect(url_for("home"))
         elif data =="BLUE":
             print("LED is BLUE")
             skl.tv_led_yellow()
-            parser.set('TV_Lights','status','YELLOW')
+            parser.set('TV_LIGHTS','colour','YELLOW')
             parser.write(configfile)
             configfile.close()
             return redirect(url_for("home"))
         elif data =="YELLOW":
             print("LED is YELLOW")
             skl.tv_led_yellow()
-            parser.set('TV_Lights','status','GREEN')
+            parser.set('TV_LIGHTS','colour','GREEN')
             parser.write(configfile)
             configfile.close()
             return redirect(url_for("home"))
         elif data =="GREEN":
             print("LED is GREEN")
             skl.tv_led_green()
-            parser.set('TV_Lights','status','PINK')
+            parser.set('TV_lIGHTS','colour','PINK')
             parser.write(configfile)
             configfile.close()
             return redirect(url_for("home"))
         elif data =="PINK":
             print("LED is PINK")
             skl.tv_led_pink()
-            parser.set('TV_Lights','status','DEFAULT')
+            parser.set('TV_LIGHTS','colour','DEFAULT')
             parser.write(configfile)
             configfile.close()
             return redirect(url_for("home"))
@@ -207,10 +208,15 @@ def table_pw_toggle():
 	except:
 		return "Some error when running function table_toggle."
 
-host = parser.get('Web','ip')
-port = parser.getint('Web','port')
-debug = parser.getboolean('Web','debug')
+
+host = parser.get('WEB','ip')
+port = parser.getint('WEB','port')
+debug = parser.getboolean('WEB','debug')
+
+url = f"http://{host}:{port}"
+
 
 # Running server
 if __name__ == "__main__":
-	app.run(host=host, port=port, debug=debug)	
+    webbrowser.open(url,new=2)
+    app.run(host=host, port=port, debug=debug)	
