@@ -1,6 +1,6 @@
 ##### Webremote #####
 
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user
@@ -8,7 +8,7 @@ import os
 from sklad_functions import sklad as skl
 import webbrowser
 
-parser = SafeConfigParser()
+parser = ConfigParser()
 parser.read('config.ini')
 
 app = Flask(__name__)
@@ -218,5 +218,6 @@ url = f"http://{host}:{port}"
 
 # Running server
 if __name__ == "__main__":
-    webbrowser.open(url,new=2)
+    if parser.getint('MISC','launch') == 1:
+        webbrowser.open(url,new=2)
     app.run(host=host, port=port, debug=debug)	
