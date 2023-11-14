@@ -1,0 +1,76 @@
+html, body {
+    background-color: #a1e1ff;
+}
+a:link {
+    color: #ff7f42;
+}
+a:visited {
+    color: #ff7f42;
+}
+a:hover {
+    color: #ff7f42;
+}
+a:active {
+    color: #ff7f42;
+}
+hr {
+    border: solid 1px #85F4FF;
+}
+nav {
+    background-color: #42C2FF;
+}
+.nav-title {
+    color: #ff7f42;
+}
+.nav-links {
+    color: #9BE8D8;
+}
+.seperator {
+    border: 5px solid black;
+}
+.nav-item-seperator {
+    border-right: 1px black solid;
+}
+.buttons {
+    background-color: #42C2FF;
+    border: 5px solid #85F4FF;
+}
+.buttons:hover {
+    background-color: #ff7f42;
+    border: 5px solid #F04C00;
+}
+.smart-buttons {
+    border: solid black 5px;
+    background: rgb(102,120,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(129,129,129,1) 13%, rgba(0,0,0,1) 100%);
+    color: white;
+}
+.login-form {
+    background-color: #B8FFF9;
+    border: 5px solid #85F4FF;
+}
+#menu {
+    border: 5px solid #85F4FF;
+    background-color: #B8FFF9;
+}
+#cALink:hover {
+   color: skyblue; 
+}
+#lLink:hover {
+   color: skyblue; 
+}
+#log_container {
+    background-color: #B8FFF9;
+    border: 5px solid #85F4FF;
+}
+#weather_container {
+    background-color: #B8FFF9;
+    border: 5px solid #85F4FF;
+}
+#settings-form {
+    background-color: #B8FFF9;
+    border: 5px solid #85F4FF;
+}
+footer {
+    background-color: #85F4FF;
+}

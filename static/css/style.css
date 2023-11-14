@@ -5,32 +5,26 @@ html, body {
     justify-content: start;
     min-height: 100vh;
     font-family: 'M PLUS 1p', sans-serif;
-    background-color: #a1e1ff;
     margin: 0px;
     padding-top: 40px;
     margin-bottom: -10px;
 }
 a:link {
-    color: #ff7f42;
     text-decoration: none;
 }
 a:visited {
-    color: #ff7f42;
     text-decoration: none;
 }
 a:hover {
-    color: #ff7f42;
     text-decoration: none;
 }
 a:active {
-    color: #ff7f42;
     text-decoration: none;
 }
 ul {
     list-style-type: none;
 }
 hr {
-    border: solid 1px #85F4FF;
     margin-bottom: 30px;
 }
 .hidden {
@@ -50,17 +44,14 @@ nav {
     top: 0;
     overflow: hidden;
     height: 50px;
-    background-color: #42C2FF;
     width: 100%;
 }
 .nav-title {
-    color: #ff7f42;
     float: left;
     display: inline-block;
     margin: 15px;
 }
 .nav-links {
-    color: #9BE8D8;
     display: inline-block;
     float: left;
 }
@@ -68,13 +59,9 @@ nav {
     float: left;
     padding: 5px 15px 5px 15px;
 }
-.seperator {
-    border: 5px solid black;
-}
 .nav-item-seperator {
     float: left;
     height: 100%;
-    border-right: 1px black solid;
 }
 .main-container {
     display: flex;
@@ -87,17 +74,11 @@ nav {
     border-radius: 20px;
 }
 .buttons {
-    background-color: #42C2FF;
     padding: 15px;
-    border: 5px solid #85F4FF;
     border-radius: 5px;
     text-decoration: none;
     text-align: center;
     font-size: 16px;
-}
-.buttons:hover {
-    background-color: #ff7f42;
-    border: 5px solid #F04C00;
 }
 .button-group {
     padding-right: auto;
@@ -110,16 +91,12 @@ nav {
     word-wrap: break-word;
 }
 .smart-buttons {
-    border: solid black 5px;
     border-radius: 100px;
-    background: rgb(102,120,255);
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(129,129,129,1) 13%, rgba(0,0,0,1) 100%);
     padding: 20px;
     margin: 5px;
     width: 50px;
     height: 50px;
     font-size: 10px;
-    color: white;
 }
 #login {
     width: 600px;
@@ -128,10 +105,8 @@ nav {
 }
 .login-form {
     text-align: center;
-    background-color: #B8FFF9;
     padding: 20px;
     margin: 40px auto 40px auto;
-    border: 5px solid #85F4FF;
     border-radius: 5px;
     width: 500px;
 }
@@ -149,20 +124,10 @@ nav {
     align-items: center;
     flex-wrap: wrap;
     margin: 10px auto 10px auto;
-    border: 5px solid #85F4FF;
     border-radius: 5px;
-    background-color: #B8FFF9;
     padding: 15px;
 }
-#cALink:hover {
-   color: skyblue; 
-}
-#lLink:hover {
-   color: skyblue; 
-}
 #log_container {
-    background-color: #B8FFF9;
-    border: 5px solid #85F4FF;
     border-radius: 5px;
     padding: 15px;
 }
@@ -170,14 +135,10 @@ nav {
     line-height: 30%;
 }
 #weather_container {
-    background-color: #B8FFF9;
-    border: 5px solid #85F4FF;
     border-radius: 5px;
     padding: 15px;
 }
 #settings-form {
-    background-color: #B8FFF9;
-    border: 5px solid #85F4FF;
     border-radius: 5px;
     padding: 15px;
 }
@@ -188,7 +149,6 @@ footer {
     width: 100%;
     height: 5rem;
     margin-bottom: auto;
-    background-color: #85F4FF;
     margin-top: auto;
     padding: 15px;
 }
