@@ -61,7 +61,7 @@ def register():
         db.session.commit()
         return redirect(url_for("login"))
 
-    return render_template("sections/sign_up.html")
+    return render_template("sign_up.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -73,9 +73,9 @@ def login():
             if user.password == request.form.get("password"):
                 login_user(user)
                 return redirect(url_for("home"))
-        return render_template("sections/login.html")
+        return render_template("login.html")
     except:
-        return render_template("sections/login.html")
+        return render_template("login.html")
 
 
 # Logout user function

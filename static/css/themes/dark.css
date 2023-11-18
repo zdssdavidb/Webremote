@@ -1,17 +1,18 @@
 html, body {
     background-color: #000000;
+    color: #FFFFFF;
 }
 a:link {
-    color: #ff0000;
+    color: #FFFFFF;
 }
 a:visited {
-    color: #ff0000;
+    color: #FFFFFF;
 }
 a:hover {
-    color: #ff0000;
+    color: #FFFFFF;
 }
 a:active {
-    color: #ff0000;
+    color: #FFFFFF;
 }
 hr {
     border: solid 1px #400000;
@@ -20,10 +21,10 @@ nav {
     background-color: #400000;
 }
 .nav-title {
-    color: #ff0000;
+    color: #FFFFFF;
 }
 .nav-links {
-    color: #9BE8D8;
+    color: #FFFFFF;
 }
 .seperator {
     border: 5px solid black;
@@ -50,8 +51,8 @@ nav {
     border: 5px solid #400000;
 }
 #menu {
-    border: 5px solid #bf0000;
     background-color: #800000;
+    border: 5px solid #400000;
 }
 #cALink:hover {
    color: skyblue; 
@@ -60,8 +61,8 @@ nav {
    color: skyblue; 
 }
 #log_container {
-    border: 5px solid #bf0000;
     background-color: #800000;
+    border: 5px solid #400000;
 }
 #weather_container {
     background-color: #800000;
