@@ -8,22 +8,24 @@ import os
 from sklad_functions import sklad as skl
 import webbrowser
 
+
 parser = ConfigParser()
 parser.read('config.ini')
+
+log_path = parser.get('LOGGING','path')
+level = parser.get('LOGGING','level')
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "4GShz7"
 db = SQLAlchemy()
 
-
 host = parser.get('WEB','ip')
 port = parser.getint('WEB','port')
 debug = parser.getboolean('WEB','debug')
-
 url = f"http://{host}:{port}"
-
 theme = parser.get('THEME','mode')
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -221,4 +223,6 @@ def table_pw_toggle():
 if __name__ == "__main__":
     if parser.getint('MISC','launch') == 1:
         webbrowser.open(url,new=2)
+    else:
+        pass
     app.run(host=host, port=port, debug=debug)	
