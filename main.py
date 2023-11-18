@@ -59,9 +59,9 @@ def register():
                     password=request.form.get("password"))
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for("login"))
+        return redirect(url_for("login", theme=theme))
 
-    return render_template("sign_up.html")
+    return render_template("sign_up.html", theme=theme)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -73,9 +73,9 @@ def login():
             if user.password == request.form.get("password"):
                 login_user(user)
                 return redirect(url_for("home"))
-        return render_template("login.html")
+        return render_template("login.html", theme=theme)
     except:
-        return render_template("login.html")
+        return render_template("login.html", theme=theme)
 
 
 # Logout user function
@@ -88,12 +88,12 @@ def logout():
 
 @app.route("/devices")
 def devices():
-    return render_template("devices.html")
+    return render_template("devices.html", theme=theme)
 
 
 @app.route("/settings")
 def settings():
-    return render_template("settings.html")
+    return render_template("settings.html", theme=theme)
 
 
 # TV Power toggle

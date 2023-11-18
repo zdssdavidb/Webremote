@@ -33,8 +33,8 @@ nav {
     border-right: 1px black solid;
 }
 .buttons {
-    background-color: #42C2FF;
-    border: 5px solid #85F4FF;
+    background-color: #800000;
+    border: 5px solid #400000;
 }
 .buttons:hover {
     background-color: #ff0000;
