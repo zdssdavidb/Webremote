@@ -131,4 +131,4 @@ venv.bak/
 .dmypy.json	
 dmypy.json	
 
-logFile.txt
+logs/
