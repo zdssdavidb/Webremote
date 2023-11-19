@@ -1,42 +1,88 @@
 <div id="menu"> 
-    <a class="smart-buttons" href="/img/tv_power">
-        <button type="submit" name="TV_Power" value="power1">
-            <img src="/static/img/blue_tv.png" />
-        </button>
-    </a>
-    <a class="smart-buttons" href="/img/tv_led_toggle">
-        <button type="submit" name="TV_LED" value = "power2">
-            <img src="/static/img/blue_tv_led_toggle.png" />
-        </button>
-    </a>
-    <a class="smart-buttons" href="/img/tv_led_shuffle">
-        <button type="submit" name="TV_LED" value = "power2">
-           <img src="/static/img/yellow_tv_led.png" />
-        </button>
-    </a>
-    <a class="smart-buttons" href="/img/Misc_1">
-        <button type="submit" name="power3" value = "power3">
-            <img src="/static/img/blue_bed.png" />
-        </button>
-    </a>
-    <a class="smart-buttons" href="/img/Misc_2">
-        <button type="submit" name="Misc" value = "power3">
-            <img src="/static/img/play.png" />
-        </button>
-    </a>
-    <a class="smart-buttons" href="/img/table_power_toggle">
-        <button type="submit" name="Table" value = "Table">
-            <img src="/static/img/table1.png" />
-        </button>
-    </a>
-    <a class="smart-buttons" href="/img/Cube_power_toggle">
-        <button type="submit" name="Cube-Power" value = "Cube-Power">
-            <img src="/static/img/cube.png" />
-        </button>
-    </a>
-    <!-- <a href="home.html">
-        <button type="submit" name="Home" value = "power1">
-            <img src="/static/img/home_icon_480.png" />
-        </button>
-    </a> -->
+    <div class="button-group">
+        <a href="/tv_power">
+            <button class="smart-buttons" type="submit" name="TV_Power" value="TV_Power"></button>
+        </a>
+        <p class="button-name">TV Power</p>
+    </div>
+    <div class="button-group">
+        <a href="/tv_led_toggle">
+            <button class="smart-buttons" type="submit" name="TV_LED1" value = "TV_LED1"></button>
+        </a>
+        <p>TV LED</p>
+    </div>
+    <div class="button-group">
+        <a href="/tv_led_shuffle">
+            <button class="smart-buttons" type="submit" name="TV_LED2" value = "TV_LED2"></button>
+        </a>
+        <p>TV LED COLOUR</p>
+    </div>
+    <div class="button-group">
+        <a href="http://192.168.0.50:8080/video">
+            <button class="smart-buttons" type="submit" name="flippy" value = "flippy"></button>
+        </a>
+        <p>Flippy Cam</p>
+    </div>
+    <div class="button-group">
+        <a href="/get_weather">
+            <button class="smart-buttons" type="submit" name="weather" value = "weather"></button>
+        </a>
+        <p>Weather</p>
+    </div>
+    <div class="button-group">
+        <a href="/get_temp">
+            <button class="smart-buttons" type="submit" name="grafana" value = "grafana"></button>
+        </a>
+        <p>Grafana</p>
+    </div>
+    <div class="button-group">
+        <a href="http://192.168.0.234/admin/">
+            <button class="smart-buttons" type="submit" name="pihole" value = "pihole"></button>
+        </a>
+        <p>DNS Data</p>
+    </div>
+    <div class="button-group">
+        <a href="/table_power_toggle">
+            <button class="smart-buttons" type="submit" name="table-power" value = "table-power"></button>
+        </a>
+        <p>Table Power</p>
+    </div>
+    <div class="button-group">
+        <a href="/cube_power_toggle">
+            <button class="smart-buttons" type="submit" name="Cube-Power" value = "Cube-Power"></button>
+        </a>
+        <p>Cube Power</p>
+    </div>
+    <div class="button-group">
+        <a href="http://192.168.0.227:8084">
+            <button class="smart-buttons" type="submit" name="car-park" value = "car-park"></button>
+        </a>
+        <p>Car Park Cam</p>
+    </div>
+    <div class="button-group">
+        <a href="http://192.168.0.217:8085">
+            <button class="smart-buttons" type="submit" name="front-door" value = "front-door"></button>
+        </a>
+        <p>Front Door Cam</p>
+    </div>
+    <div class="button-group">
+        <a href="http://192.168.0.234:9092">
+            <button class="smart-buttons" type="submit" name="transmission" value = "transmission"></button>
+        </a>
+        <p>Transmission</p>
+    </div>
+    <div class="button-group">
+        <a href="/res_xrdp">
+            <button class="smart-buttons" type="submit" name="res_rdp" value = "res_rdp"></button>
+        </a>
+        <p>Restart RDP</p>
+    </div>
+    {% comment %} <div class="button-group">
+        <a href="home.html">
+            <button type="submit" name="Home" value = "power1">
+                <img src="/static/img/blue_tv.png" />
+            </button>
+        </a> 
+        <p>TV</p> {% endcomment %}
+    </div>
 </div>

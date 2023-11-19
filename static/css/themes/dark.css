@@ -1,0 +1,77 @@
+html, body {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+a:link {
+    color: #FFFFFF;
+}
+a:visited {
+    color: #FFFFFF;
+}
+a:hover {
+    color: #FFFFFF;
+}
+a:active {
+    color: #FFFFFF;
+}
+hr {
+    border: solid 1px #400000;
+}
+nav {
+    background-color: #400000;
+}
+.nav-title {
+    color: #FFFFFF;
+}
+.nav-links {
+    color: #FFFFFF;
+}
+.seperator {
+    border: 5px solid black;
+}
+.nav-item-seperator {
+    border-right: 1px black solid;
+}
+.buttons {
+    background-color: #800000;
+    border: 5px solid #400000;
+}
+.buttons:hover {
+    background-color: #ff0000;
+    border: 5px solid #F04C00;
+}
+.smart-buttons {
+    border: solid black 5px;
+    background: rgb(102,120,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(129,129,129,1) 13%, rgba(0,0,0,1) 100%);
+    color: white;
+}
+.login-form {
+    background-color: #800000;
+    border: 5px solid #400000;
+}
+#menu {
+    background-color: #800000;
+    border: 5px solid #400000;
+}
+#cALink:hover {
+   color: skyblue; 
+}
+#lLink:hover {
+   color: skyblue; 
+}
+#log_container {
+    background-color: #800000;
+    border: 5px solid #400000;
+}
+#weather_container {
+    background-color: #800000;
+    border: 5px solid #400000;
+}
+#settings-form {
+    background-color: #800000;
+    border: 5px solid #400000;
+}
+footer {
+    background-color: #800000;
+}
