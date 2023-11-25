@@ -106,34 +106,34 @@ def DoubleGreenFlash():
 # Smart sockets (Sonoff/Tasmota)
 def bed_light_toggle():
     import requests
-    r=requests.get('http://{ip address}/cm?cmnd=Power%20toggle', auth=('admin','{password}')) # HTTP Power toggle
+    r=requests.get('http://192.168.0.106/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power toggle
 
 def tv_power_toggle():
     import requests
-    r=requests.get('http://{ip address}/cm?cmnd=Power%20toggle', auth=('admin','{password}')) # HTTP Power toggle
+    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power toggle
 
 def tv_power_off():
     import requests
-    r=requests.get('http://{ip address}/cm?cmnd=Power%20Off', auth=('admin','{password}')) # HTTP Power OFF
+    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20Off', auth=('admin','Password123')) # HTTP Power OFF
     
 def tv_power_on():
     import requests
-    r=requests.get('http://{ip address}/cm?cmnd=Power%20On', auth=('admin','{password}')) # HTTP Power ON
+    r=requests.get('http://192.168.0.202/cm?cmnd=Power%20On', auth=('admin','Password123')) # HTTP Power ON
 
 def table_toggle():
     import requests
-    r=requests.get('http://{ip address}/cm?cmnd=Power%20toggle', auth=('admin','{password}')) # HTTP Power to$
+    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power to$
 
 def table_power_off():
     import requests
-    r=requests.get('http://{ip address}/cm?cmnd=Power%20Off', auth=('admin','{password}')) # HTTP Power to$
+    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20Off', auth=('admin','Password123')) # HTTP Power to$
 
 def table_power_on():
     import requests
-    r=requests.get('http://{ip address}/cm?cmnd=Power%20On', auth=('admin','{password}')) # HTTP Power to$
+    r=requests.get('http://192.168.0.51/cm?cmnd=Power%20On', auth=('admin','Password123')) # HTTP Power to$
     
 def cube_power_toggle():
-    requests.get('http://{ip address}/cm?cmnd=Power%20toggle', auth=('admin','{password}')) # HTTP Power OFF
+    requests.get('http://192.168.0.253/cm?cmnd=Power%20toggle', auth=('admin','Password123')) # HTTP Power OFF
 
 # Misc
 def Get_weather_forecast1():
@@ -173,9 +173,9 @@ def get_news():
                 if article.attrs == {'class': ['post-block__content']}:   # if <div has the right class attribute
                     x=re.sub('\n','', article.text)
                     x=re.sub('\t','', x)
-                    x=re.sub('“','', x)
-                    x=re.sub('’','', x)
-                    x=re.sub('”','', x)
+                    x=re.sub('','', x)
+                    x=re.sub('','', x)
+                    x=re.sub('','', x)
                     x=re.sub('&','', x)
                     if len(x)>3:
                         if len(x)>130:
@@ -270,9 +270,9 @@ def get_uptime():
   except:
     return "0"
 
-# Getting 10 day forecast (high/low temps + descriptions, saving to/generating weather.html file)
+# Stable
 def get_weather_full():
-    import requests
+    import requests, os
     from bs4 import BeautifulSoup
 
     response = requests.get("https://www.bbc.co.uk/weather/2648579")
@@ -297,6 +297,7 @@ def get_weather_full():
 
     # Collecting temperatures (high and low)
     all_temps_dirty = soup.find_all("div", class_="wr-day__temperature")
+    temp_now = soup.find_all("span", class_="wr-value--temperature--c")
     weather_data = []
     for index, entry in enumerate(all_temps_dirty):
         high_temps = entry.find("span", class_="wr-day-temperature__high-value")
@@ -308,19 +309,21 @@ def get_weather_full():
         low_temp = low_temps.select('.wr-value--temperature--c')[0].get_text()
         weather_data.append({"date": dates[index], "high_temp": high_temp, "low_temp": low_temp, "description": clean_weather_descriptions[index]})
 
-   # Generating HTML page with weather forecast.
+    # Generating HTML page with weather forecast (FULL).
     html_str = """
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="utf-8">
+        <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="/static/css/style.css" />
         <title>10 days Weather Forecast</title>
     </head>
     <body style="background-color:Black;">
     <div style="color:White;", align='center'>
     <dl>
     """
-   
+
     for entry in weather_data:
         html_str += "<dt>" +  entry['date'].encode('ascii', 'ignore').decode('ascii') + "</dt>"
         html_str += "<dd>" +  entry['description'].encode('ascii', 'ignore').decode('ascii') + ".</dd>"
@@ -333,23 +336,44 @@ def get_weather_full():
     </body>
     </html>
     """
+
+    temp_now = temp_now[0]
+    temp_now = str(temp_now).split(">")[1][:-7]
     # Saving HTML page
     os.chdir("/var/www/html/webremote/templates")
-    Html_file= open("weather.html","w")
+    Html_file = open("weather.html","w")
     Html_file.write(html_str)
     Html_file.close()
+
+    # Generating HTML page with weather forecast (MINI).
+    html_str = """
+    <div id="weather_container">
+    <h3>Weather</h3>
+    <div style="align='center'>"""
+    html_str += "Now: " + temp_now
+    html_str += """
+    </div>
+    </div>
+    """
+    # Saving HTML page
+    os.chdir("/var/www/html/webremote/templates/sections")
+    Html_file = open("weather_display.html","w")
+    Html_file.write(html_str)
+    Html_file.close()
+
+    return temp_now
 
 # pulling temp/humidity data from table sensor
 def get_table_temp():
     import os, requests, json
-    r = requests.get('http://{ip address}/cm?cmnd=status%208', auth=('admin','{password}'))
+    r = requests.get('http://192.168.0.51/cm?cmnd=status%208', auth=('admin','Password123'))
     # print("Collected data: ",r.text)
     if r.status_code==200:
         response = r.json()['StatusSNS']['DHT11']
         os.chdir("/home/pi/logs")
         now = datetime.datetime.now()
+        temp_now = get_weather_full()
+        os.system(f"echo {now.strftime('%x %X')},{response['Temperature']},{response['Humidity']},{ response['DewPoint']},{temp_now} >>/srv/main/vol1/main/Download/server_backup/logs_backup/table_log_new.csv")
         os.system(f"echo {now.strftime('%x %X')},{response['Temperature']},{response['Humidity']},{ response['DewPoint']} >>/srv/main/vol1/main/Download/server_backup/logs_backup/table_log.csv")
     else:
-        print("Couldn't get data")
-
-
+         return "Couldn't get data"
