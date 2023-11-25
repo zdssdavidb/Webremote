@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charset="UTF-8">
         <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="/static/css/style.css" />
-        <title>Web Remote (Flask)</title>
+        <link rel="stylesheet" href="/static/css/themes/{{ theme }}.css" />
+        <title>Web Remote</title>
     </head>
     <body>
         {% include 'sections/nav.html' %}
@@ -23,10 +21,12 @@
                     <label for="password">Password</label>
                     <input type="password" name="password" />
                 </div>
-                <button class="buttons" type="submit">Login</button>
+                <div class="buttons">
+                    <button type="submit" name="login" value = "login">
+                    <img src="/static/img/login_button(rec-blue).png" /></button>
                 <hr />
                 <p>Don't have an account?</p>
-                <a id="lLink" href="/register  " >Click here.</a>
+                <a id="lLink" href="/register" >Click here.</a>
             </form>
             <script src="/static/js/main.js"></script>
         </div>
