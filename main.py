@@ -16,6 +16,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "4GShz7"
 db = SQLAlchemy()
 
+host = parser.get('WEB','ip')
+port = parser.getint('WEB','port')
+debug = parser.getboolean('WEB','debug')
+url = f"http://{host}:{port}"
+theme = parser.get('THEME','mode')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -32,7 +37,7 @@ db.init_app(app)
 # Home page (for logged in users)
 @app.route("/")
 def home():
-	return render_template("home.html") # serving home page, which includes Menu.html with buttons, etc.
+	return render_template("home.html", theme=theme) # serving home page, which includes Menu.html with buttons, etc.
 with app.app_context():
 	db.create_all()
 
